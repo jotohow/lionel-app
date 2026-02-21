@@ -107,7 +107,7 @@ def _plot_players(first_xi, position, fig):
             textposition="bottom center",
             textfont=dict(color="#4B5563"),
             textfont_size=10,
-            customdata=df[["name", "team_name", "mean_points_pred"]],
+            customdata=df[["name", "team_name", "points_pred"]],
             hovertemplate="<b>%{customdata[0]}</b>"
             + "<br><br><b>Team:</b> %{customdata[1]}"
             + "<br><b>Mean Predicted Points:</b> %{customdata[2]}"
@@ -135,7 +135,7 @@ def _plot_subs(team, fig):
             textposition="bottom left",
             textfont=dict(color="#4B5563"),
             textfont_size=10,
-            customdata=df[["name", "team_name", "mean_points_pred"]],
+            customdata=df[["name", "team_name", "points_pred"]],
             hovertemplate="<b>%{customdata[0]}</b>"
             + "<br><br><b>Team:</b> %{customdata[1]}"
             + "<br><b>Mean Predicted Points:</b> %{customdata[2]}"
@@ -148,8 +148,8 @@ def _plot_subs(team, fig):
 def create_plot(players):
 
     # players = pd.read_csv(DATA / f"team_selection_{next_gw}_{season}.csv")
-    players["mean_points_pred"] = players["mean_points_pred"].round(1)
-    players["name"] = players["player"].str.split("_").str[1]
+    players["points_pred"] = players["points_pred"].round(1)
+    players["name"] = players["web_name"]
     team = players[players["xv"] == 1]
     first_xi = team.loc[team["xi"] == 1]
 
@@ -170,8 +170,8 @@ def create_plot(players):
 def create_value_plot(df_team):
     # df_team = pd.read_csv(DATA / f"team_selection_{next_gw}_{season}.csv")
     # df_team = pd.read_csv(DATA / f"team_selection_{next_gw}_{season}.csv")
-    df_team["name"] = df_team["player"].str.split("_").str[1]
-    df_team["mean_points_pred"] = df_team["mean_points_pred"].round(1)
+    df_team["name"] = df_team["web_name"]
+    df_team["points_pred"] = df_team["points_pred"].round(1)
     df_not_picked = df_team[df_team["xv"] == 0]
     df_picked = df_team[df_team["xv"] == 1]
 
@@ -181,12 +181,12 @@ def create_value_plot(df_team):
     fig.add_trace(
         go.Scatter(
             x=df_not_picked.value,
-            y=df_not_picked["mean_points_pred"],
+            y=df_not_picked["points_pred"],
             marker=dict(
                 color="#9fbbe3",
             ),
             mode="markers",
-            customdata=df_not_picked[["name", "team_name", "mean_points_pred"]],
+            customdata=df_not_picked[["name", "team_name", "points_pred"]],
             hovertemplate="<b>%{customdata[0]}</b>"
             + "<br><br><b>Team:</b> %{customdata[1]}"
             + "<br><b>Mean Predicted Points:</b> %{customdata[2]}"
@@ -198,12 +198,12 @@ def create_value_plot(df_team):
     fig.add_trace(
         go.Scatter(
             x=df_picked.value,
-            y=df_picked["mean_points_pred"],
+            y=df_picked["points_pred"],
             marker=dict(
                 color="#4B5563",
             ),
             mode="markers",
-            customdata=df_picked[["name", "team_name", "mean_points_pred"]],
+            customdata=df_picked[["name", "team_name", "points_pred"]],
             hovertemplate="<b>%{customdata[0]}</b>"
             + "<br><br><b>Team:</b> %{customdata[1]}"
             + "<br><b>Mean Predicted Points:</b> %{customdata[2]}"

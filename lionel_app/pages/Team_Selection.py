@@ -1,29 +1,16 @@
-from pathlib import Path
-
-import pandas as pd
 import streamlit as st
-from About import NEXT_GW, dbm
+from About import NEXT_GW
+from connector import get_player_preds
 from plot_team import create_plot, create_value_plot
 from utils import setup_logger
 
-# Config
 logger = setup_logger(__name__)
-logger.debug("Running from top")  # just useful to undserstand the order of execution
+logger.debug("Running from top")
 
 
 @st.cache_data(ttl=600, show_spinner="Pulling data...")
 def get_df_sel():
-    q = f"""
-    SELECT *
-    FROM selections
-    WHERE created_at = (
-        SELECT MAX(created_at)
-        FROM selections
-        WHERE gameweek = {NEXT_GW}
-    )
-    AND gameweek = {NEXT_GW};    
-    """
-    return pd.DataFrame(dbm.query(q).fetchall())
+    return get_player_preds()
 
 
 def main():
@@ -44,5 +31,4 @@ if __name__ == "__main__":
     st.set_page_config(
         page_title="lionel - Selections",
     )
-    # sidebar()
     main()

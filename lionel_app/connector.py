@@ -1,38 +1,22 @@
-import sqlalchemy as sa
-from sqlalchemy import (
-    create_engine,
-    text,
-)
+import os
+
+import pandas as pd
+import requests
+
+API_URL = os.environ.get("API_URL", "http://localhost:8000")
 
 
-class DBManager:
-    def __init__(self, db_path, metadata=None):
-        self.engine = create_engine(f"sqlite:///{db_path}", echo=False)
-        self.metadata = metadata
-        self.tables = self.metadata.tables
+def get_team_inference() -> pd.DataFrame:
+    return pd.DataFrame(requests.get(f"{API_URL}/inference/teams").json())
 
-    @property
-    def metadata(self):
-        return self._metadata
 
-    @metadata.setter
-    def metadata(self, value):
-        if value is None:
-            self._metadata = sa.MetaData()
-            self._metadata.reflect(bind=self.engine)
-        else:
-            self._metadata = value
+def get_player_inference() -> pd.DataFrame:
+    return pd.DataFrame(requests.get(f"{API_URL}/inference/players").json())
 
-    def delete_rows(self, table_name, season):
-        table = self.tables[table_name]
-        dele = table.delete().where(table.c.season == season)
-        with self.engine.connect() as conn:
-            conn.execute(dele)
-            conn.commit()
 
-    def query(self, sql_query):
-        query = text(sql_query)
-        with self.engine.connect() as conn:
-            result = conn.execute(query)
-            conn.commit()
-            return result
+def get_team_preds() -> pd.DataFrame:
+    return pd.DataFrame(requests.get(f"{API_URL}/prediction/teams").json())
+
+
+def get_player_preds() -> pd.DataFrame:
+    return pd.DataFrame(requests.get(f"{API_URL}/prediction/players").json())

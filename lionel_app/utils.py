@@ -1,8 +1,6 @@
 import logging
-import pandas as pd
-import datetime as dt
 
-# from lionel_app import dbm
+from connector import get_player_preds
 
 
 def setup_logger(name):
@@ -12,20 +10,6 @@ def setup_logger(name):
     return logger
 
 
-def get_gameweek(dbm, season=25):
-    today = dt.datetime.today().date()
-    df = pd.DataFrame(
-        dbm.query(f"SELECT * FROM fixtures WHERE season = {season}").fetchall()
-    )
-    df = (
-        df.groupby("gameweek")
-        .agg(
-            first_kickoff=("kickoff_time", "min"), last_kickoff=("kickoff_time", "max")
-        )
-        .reset_index()
-    )
-    df[["first_kickoff", "last_kickoff"]] = df[["first_kickoff", "last_kickoff"]].apply(
-        pd.to_datetime
-    )
-    next_gameweek = df[df.last_kickoff.dt.date < today].iloc[-1, 0] + 1
-    return next_gameweek
+def get_gameweek() -> int:
+    df = get_player_preds()
+    return int(df["gameweek"].iloc[0])

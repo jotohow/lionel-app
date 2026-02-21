@@ -1,28 +1,15 @@
 from pathlib import Path
 
 import pandas as pd
-import plotly
 import streamlit as st
-from connector import DBManager
 from plot_team import build_scoreline_plot
 from utils import get_gameweek, setup_logger
 
-# GLOBALS TO BE IMPORTED ELSEWHERE
 DATA = Path(__file__).parents[1] / "data"
-# Config
 logger = setup_logger(__name__)
-logger.debug("Running from top")  # just useful to undserstand the order of execution
-logger.debug(f"DATA dir: {DATA}")
+logger.debug("Running from top")
 
-if "Users/toby/" in str(DATA):
-    p = Path(__file__).parents[2] / "lionel/data"
-else:
-    p = DATA
-
-logger.debug("DB: {}".format(p / "lionel.db"))
-dbm = DBManager(p / "lionel.db")
-NEXT_GW = get_gameweek(dbm)
-# NEXT_GW = 5
+NEXT_GW = get_gameweek()
 logger.debug(f"Next gameweek: {NEXT_GW}")
 
 
@@ -117,7 +104,7 @@ def body_model():
         r"""
         \begin{align*}
 
-            \gamma_\text{clean sheet, home} = 
+            \gamma_\text{clean sheet, home} =
             \begin{cases}
             1, & \text{if}\ \text{N}_{\text{goals conceded, home}} = 0 \\
             0, & \text{otherwise}
@@ -147,7 +134,6 @@ def body_model():
     st.write("**Man City v Arsenal: Posterior Predictive Distribution of Scorelines**")
     st.plotly_chart(build_scoreline_plot(get_ars_city(), "Manchester City", "Arsenal"))
 
-    # st.write("**Posterior Predictive Distribution of FPL Points**")
     st.write(
         "Conditional on these scorelines, player points are simulated. The plot below shows the "
         "posterior predictive distribution of points for four key players for Arsenal and Man City in their upcoming game. "
