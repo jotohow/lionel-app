@@ -6,6 +6,7 @@ from plot_team import build_scoreline_plot
 from utils import get_gameweek, setup_logger
 
 DATA = Path(__file__).parents[1] / "data"
+ROOT = Path(__file__).parents[1]
 logger = setup_logger(__name__)
 logger.debug("Running from top")
 
@@ -121,7 +122,7 @@ def body_model():
 
     st.write("A stylised directed acyclic graph for the model is shown below.")
 
-    st.image("Flowchart.png")
+    st.image(str(ROOT / "Flowchart.png"))
     st.subheader("Predictions")
 
     st.write(
@@ -142,7 +143,7 @@ def body_model():
         "that their main source of points is clean sheets, which is a binary outcome for the match."
     )
     st.write("**Man City v Arsenal: Posterior Predictive Distribution of Points**")
-    st.image("plot_posterior.png")
+    st.image(str(ROOT / "plot_posterior.png"))
 
     st.write(
         "Predictions for scorelines from the match-level model for the next gameweek can be seen on the [Scoreline Predictions](/Scoreline_Predictions) page. "

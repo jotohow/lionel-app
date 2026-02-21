@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 from connector import get_player_inference, get_team_inference
 from plot_players import build_player_inf_plot
@@ -16,7 +17,7 @@ def initialise_session_vars():
 @st.cache_data(ttl=600, show_spinner="Pulling data...")
 def get_df_player_inf():
     df = get_player_inference()
-    df["minutes"] = df["minutes"].round(0)
+    df["minutes"] = pd.to_numeric(df["minutes"], errors="coerce").round(0)
     return df
 
 

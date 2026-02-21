@@ -12,4 +12,4 @@ def setup_logger(name):
 
 def get_gameweek() -> int:
     df = get_player_preds()
-    return int(df["gameweek"].iloc[0])
+    return int(df["gameweek"].max())

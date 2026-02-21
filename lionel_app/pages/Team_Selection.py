@@ -10,7 +10,8 @@ logger.debug("Running from top")
 
 @st.cache_data(ttl=600, show_spinner="Pulling data...")
 def get_df_sel():
-    return get_player_preds()
+    df = get_player_preds()
+    return df[df["gameweek"] == NEXT_GW]
 
 
 def main():
