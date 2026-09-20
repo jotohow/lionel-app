@@ -1,0 +1,71 @@
+# SnapFlow Ignore File
+# Files and folders that should not be tracked for development context
+
+# Environment and configuration files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.*.local
+
+# SnapFlow's own data - CRITICAL to prevent recursive loops
+.snapflow/
+.snapflow/*
+.snapflowignore
+changelog.jsonl
+snaplog.jsonl
+*.jsonl
+
+# Dependencies and build artifacts
+node_modules/
+dist/
+build/
+out/
+*.min.js
+*.min.css
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git and version control
+.git/
+.gitignore
+
+# Test coverage and reports
+coverage/
+*.lcov
+.nyc_output/
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Extension build files
+*.vsix
+webpack.config.js
+tsconfig.json
+tailwind.config.js
+postcss.config.js
+eslint.config.mjs

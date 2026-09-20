@@ -49,7 +49,7 @@ def show_player_fig(data, names=[], teams=[], positions=[]):
 
 def build_player_inf_plot(df_players, min_minutes):
     # min_minutes=45
-    df_plot = df_players[df_players["mean_minutes"] > min_minutes]
+    df_plot = df_players[df_players["minutes"] > min_minutes]
     fig = go.Figure()
     fig.add_trace(
         go.Scatter(
@@ -58,7 +58,7 @@ def build_player_inf_plot(df_players, min_minutes):
             mode="markers",
             marker=dict(color="#abb8f1"),
             customdata=df_plot[df_plot.position == "GK"][
-                ["player_name", "position", "team_name", "mean_minutes"]
+                ["web_name", "position", "team_name", "minutes"]
             ],
             hovertemplate="<b>%{customdata[0]}</b><br>Position: %{customdata[1]}<br>Team: %{customdata[2]}<br>Avg Minutes: %{customdata[3]}<br>Goals: %{y}<br>Assists: %{x}",
             name="Goalkeepers",
@@ -72,7 +72,7 @@ def build_player_inf_plot(df_players, min_minutes):
             mode="markers",
             marker=dict(color="#818cb6"),
             customdata=df_plot[df_plot.position == "DEF"][
-                ["player_name", "position", "team_name", "mean_minutes"]
+                ["web_name", "position", "team_name", "minutes"]
             ],
             hovertemplate="<b>%{customdata[0]}</b><br>Position: %{customdata[1]}<br>Team: %{customdata[2]}<br>Avg Minutes: %{customdata[3]}<br>Goals: %{y}<br>Assists: %{x}",
             name="Defenders",
@@ -86,7 +86,7 @@ def build_player_inf_plot(df_players, min_minutes):
             mode="markers",
             marker=dict(color="#58617b"),
             customdata=df_plot[df_plot.position == "MID"][
-                ["player_name", "position", "team_name", "mean_minutes"]
+                ["web_name", "position", "team_name", "minutes"]
             ],
             hovertemplate="<b>%{customdata[0]}</b><br>Position: %{customdata[1]}<br>Team: %{customdata[2]}<br>Avg Minutes: %{customdata[3]}<br>Goals: %{y}<br>Assists: %{x}",
             name="Midfielders",
@@ -101,7 +101,7 @@ def build_player_inf_plot(df_players, min_minutes):
             mode="markers",
             marker=dict(color="black"),
             customdata=df_plot[df_plot.position == "FWD"][
-                ["player_name", "position", "team_name", "mean_minutes"]
+                ["web_name", "position", "team_name", "minutes"]
             ],
             hovertemplate="<b>%{customdata[0]}</b><br>Position: %{customdata[1]}<br>Team: %{customdata[2]}<br>Avg Minutes: %{customdata[3]}<br>Goals: %{y}<br>Assists: %{x}",
             name="Forwards",

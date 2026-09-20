@@ -1,57 +1,23 @@
-import pandas as pd
 import streamlit as st
-from About import dbm
+from db import player_inference, team_inference
 from plot_players import build_player_inf_plot
 from plot_team import build_team_inf_plot
 from utils import setup_logger
 
 logger = setup_logger(__name__)
-logger.debug("Running from top")  # just useful to undserstand the order of execution
+logger.debug("Running from top")
 
 
-# Set up a callback for the prediction variable
 def initialise_session_vars():
-
     if "min_mins" not in st.session_state:
         st.session_state.min_mins = 45
-
-
-@st.cache_data(ttl=600, show_spinner="Pulling data...")
-def get_df_player_inf():
-    q = """
-    SELECT * 
-    FROM player_inference
-    WHERE created_at = (
-            SELECT MAX(created_at)
-            FROM player_inference
-        )
-    """
-    df = pd.DataFrame(dbm.query(q).all())
-    df["mean_minutes"] = df["mean_minutes"].round(0)
-    return df
-
-
-@st.cache_data(ttl=600, show_spinner="Pulling data...")
-def get_df_team_inf():
-    q = """
-    SELECT * 
-    FROM team_inference
-    WHERE created_at = (
-            SELECT MAX(created_at)
-            FROM team_inference
-        )
-    """
-    df_team_inf = pd.DataFrame(dbm.query(q).all())
-    df_team_inf[["attack", "defence"]] = df_team_inf[["attack", "defence"]]
-    return df_team_inf
 
 
 def main():
     st.title("🦁 Player & Team Inference")
 
-    # Not great to reload this on each run...
-    df_player_inf = get_df_player_inf()
-    df_team_inf = get_df_team_inf()
+    df_player_inf = player_inference()
+    df_team_inf = team_inference()
 
     tab1, tab2 = st.tabs(["🤖 Player Inference", ":chart: Team Inference"])
 
@@ -67,13 +33,12 @@ def main():
             st.write("I.e.:")
             st.latex(
                 r"""
-                \text{n}_{\text{goals}}, \text{n}_{\text{assists}}, \text{n}_\text{neither} \sim 
+                \text{n}_{\text{goals}}, \text{n}_{\text{assists}}, \text{n}_\text{neither} \sim
                 \text{Multinomial}(\text{N}_\text{team goals}, \text{p}_{\text{score}}, \text{p}_{\text{assist}}, \text{p}_{\text{neither}})
                 """
             )
         st.plotly_chart(
             build_player_inf_plot(df_player_inf, st.session_state.min_mins),
-            # use_container_width=True,
             height=2000,
             width=2000,
         )
@@ -94,11 +59,10 @@ def main():
                 r"""\text{goals}_{\text{away}} \sim \text{Poisson}(\lambda_{\text{away}})"""
             )
 
-            # latex aligned
             st.latex(
                 r"""
                 \begin{align*}
-                    \text{log}(\lambda_{\text{home}}) &= \beta_0 + \beta_{\text{home advantage}} + \beta_{\text{attack, home team}} + \beta_{\text{defence, away team}} \\ 
+                    \text{log}(\lambda_{\text{home}}) &= \beta_0 + \beta_{\text{home advantage}} + \beta_{\text{attack, home team}} + \beta_{\text{defence, away team}} \\
                     \text{log}(\lambda_{\text{away}}) &= \beta_0 + \beta_{\text{defence, home team}} + \beta_{\text{attack, away team}}
 
                 \end{align*}
@@ -109,7 +73,6 @@ def main():
 
 def sidebar():
     with st.sidebar:
-        # teams = get_teams()
         st.title("Filter the player inference values")
         st.slider("Minimum Average Minutes", 0, 90, key="min_mins", value=45)
 
