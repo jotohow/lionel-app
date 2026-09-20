@@ -261,6 +261,45 @@ def build_scoreline_plot(df_scoreline, home, away):
     return fig
 
 
+def build_scoreline_heatmap(df_grid, home, away):
+    """Scoreline probability heatmap for one fixture.
+
+    Unlike build_scoreline_plot (a Histogram2d over raw posterior draws,
+    used only for the static About-page demo), this consumes the
+    pre-aggregated probability grid from db.scoreline_grid() -- one row per
+    observed (home_goals, away_goals) combination, not per draw.
+    """
+    df_plot = df_grid[(df_grid["home"] == home) & (df_grid["away"] == away)]
+
+    pivot = df_plot.pivot_table(
+        index="away_goals", columns="home_goals", values="probability", fill_value=0
+    )
+    # Reindex to the full 0-6 grid so cells with no observed draws show as
+    # zero probability rather than being absent from the heatmap.
+    pivot = pivot.reindex(index=range(7), columns=range(7), fill_value=0)
+
+    fig = go.Figure(
+        go.Heatmap(
+            x=pivot.columns,
+            y=pivot.index,
+            z=pivot.values,
+            colorscale=["white", "#4b5563"],
+            hovertemplate=(
+                f"{home} %{{x}} - %{{y}} {away}<br>Probability: %{{z:.1%}}<extra></extra>"
+            ),
+        )
+    )
+    fig.update_layout(
+        xaxis_title=f"Home ({home}) Goals",
+        yaxis_title=f"Away ({away}) Goals",
+        xaxis=dict(dtick=1),
+        yaxis=dict(dtick=1),
+        width=600,
+        height=600,
+    )
+    return fig
+
+
 def build_team_inf_plot(df_team_inf):
     fig = go.Figure()
     fig.add_trace(

@@ -1,6 +1,5 @@
-import pandas as pd
 import streamlit as st
-from connector import get_player_inference, get_team_inference
+from db import player_inference, team_inference
 from plot_players import build_player_inf_plot
 from plot_team import build_team_inf_plot
 from utils import setup_logger
@@ -14,23 +13,11 @@ def initialise_session_vars():
         st.session_state.min_mins = 45
 
 
-@st.cache_data(ttl=600, show_spinner="Pulling data...")
-def get_df_player_inf():
-    df = get_player_inference()
-    df["minutes"] = pd.to_numeric(df["minutes"], errors="coerce").round(0)
-    return df
-
-
-@st.cache_data(ttl=600, show_spinner="Pulling data...")
-def get_df_team_inf():
-    return get_team_inference()
-
-
 def main():
     st.title("🦁 Player & Team Inference")
 
-    df_player_inf = get_df_player_inf()
-    df_team_inf = get_df_team_inf()
+    df_player_inf = player_inference()
+    df_team_inf = team_inference()
 
     tab1, tab2 = st.tabs(["🤖 Player Inference", ":chart: Team Inference"])
 

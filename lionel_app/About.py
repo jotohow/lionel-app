@@ -3,15 +3,12 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 from plot_team import build_scoreline_plot
-from utils import get_gameweek, setup_logger
+from utils import setup_logger
 
 DATA = Path(__file__).parents[1] / "data"
 ROOT = Path(__file__).parents[1]
 logger = setup_logger(__name__)
 logger.debug("Running from top")
-
-NEXT_GW = get_gameweek()
-logger.debug(f"Next gameweek: {NEXT_GW}")
 
 
 @st.cache_data(ttl=600, show_spinner="Pulling data...")

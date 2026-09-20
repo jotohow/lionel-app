@@ -1,6 +1,6 @@
 import logging
 
-from connector import get_player_preds
+from db import next_gameweek
 
 
 def setup_logger(name):
@@ -11,5 +11,5 @@ def setup_logger(name):
 
 
 def get_gameweek() -> int:
-    df = get_player_preds()
-    return int(df["gameweek"].max())
+    gameweek, _ = next_gameweek()
+    return gameweek
