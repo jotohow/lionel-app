@@ -37,11 +37,7 @@ def main():
                 \text{Multinomial}(\text{N}_\text{team goals}, \text{p}_{\text{score}}, \text{p}_{\text{assist}}, \text{p}_{\text{neither}})
                 """
             )
-        st.plotly_chart(
-            build_player_inf_plot(df_player_inf, st.session_state.min_mins),
-            height=2000,
-            width=2000,
-        )
+        st.plotly_chart(build_player_inf_plot(df_player_inf, st.session_state.min_mins))
 
     with tab2:
         st.subheader("Team Attack and Defence Strength")
@@ -68,7 +64,7 @@ def main():
                 \end{align*}
             """
             )
-        st.plotly_chart(build_team_inf_plot(df_team_inf))
+        st.plotly_chart(build_team_inf_plot(df_team_inf), width="content")
 
 
 def sidebar():

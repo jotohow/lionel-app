@@ -130,7 +130,10 @@ def body_model():
     )
 
     st.write("**Man City v Arsenal: Posterior Predictive Distribution of Scorelines**")
-    st.plotly_chart(build_scoreline_plot(get_ars_city(), "Manchester City", "Arsenal"))
+    st.plotly_chart(
+        build_scoreline_plot(get_ars_city(), "Manchester City", "Arsenal"),
+        width="content",
+    )
 
     st.write(
         "Conditional on these scorelines, player points are simulated. The plot below shows the "

@@ -48,11 +48,7 @@ def main(df_grid, matches):
         )
 
     home_team, away_team = st.session_state.match.split(" vs ")
-    st.plotly_chart(
-        build_scoreline_heatmap(df_grid, home_team, away_team),
-        height=2000,
-        width=2000,
-    )
+    st.plotly_chart(build_scoreline_heatmap(df_grid, home_team, away_team), width="content")
 
 
 def sidebar(matches):

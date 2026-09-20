@@ -27,11 +27,11 @@ def main():
     tab1, tab2 = st.tabs(["🤖 Team Selection", ":chart: Team Forecasts and Values"])
     with tab1:
         st.subheader(f"Team Selections for Gameweek {selection_gw}")
-        st.plotly_chart(create_plot(df_sel))
+        st.plotly_chart(create_plot(df_sel), width="content")
 
     with tab2:
         st.subheader(f"Team Forecasts and Values for Gameweek {selection_gw}")
-        st.plotly_chart(create_value_plot(df_sel))
+        st.plotly_chart(create_value_plot(df_sel), width="content")
 
 
 if __name__ == "__main__":
