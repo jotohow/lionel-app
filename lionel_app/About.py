@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 from plot_team import build_scoreline_plot
-from utils import setup_logger
+from utils import FAVICON, setup_logger
 
 DATA = Path(__file__).parents[1] / "data"
 ROOT = Path(__file__).parents[1]
@@ -175,6 +175,7 @@ def body_notes():
 if __name__ == "__main__":
     st.set_page_config(
         page_title="lionel - About",
+        page_icon=str(FAVICON),
     )
     body_model()
     body_optimisation()

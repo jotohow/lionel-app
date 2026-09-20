@@ -1,6 +1,9 @@
 import logging
+from pathlib import Path
 
 from db import next_gameweek
+
+FAVICON = Path(__file__).parent / "favicon.png"
 
 
 def setup_logger(name):

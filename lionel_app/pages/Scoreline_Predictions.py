@@ -1,7 +1,7 @@
 import streamlit as st
 from db import scoreline_grid
 from plot_team import build_scoreline_heatmap
-from utils import setup_logger
+from utils import FAVICON, setup_logger
 
 logger = setup_logger(__name__)
 logger.debug("Running from top")
@@ -61,6 +61,7 @@ def sidebar(matches):
 if __name__ == "__main__":
     st.set_page_config(
         page_title="lionel - Scoreline Predictions",
+        page_icon=str(FAVICON),
     )
     df_grid = scoreline_grid()
     matches = get_matches(df_grid)
