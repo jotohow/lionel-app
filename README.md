@@ -1,6 +1,8 @@
 # lionel_app
 
-A Streamlit App to display the results of the [lionel](https://github.com/jth500/lionel) FPL team picking tool.
+Bayesian match and player modelling to pick an optimal Fantasy Premier League squad, updated daily.
+
+The Streamlit front end for the [lionel](https://github.com/jotohow/lionel) FPL team picking tool.
 
 ## The model
 

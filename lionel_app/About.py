@@ -5,6 +5,13 @@ import streamlit as st
 from plot_team import build_scoreline_plot
 from utils import FAVICON, setup_logger
 
+# Must be the first Streamlit command on the page, and at module level:
+# Streamlit Community Cloud reads page_title here for the link-preview card.
+st.set_page_config(
+    page_title="lionel - About",
+    page_icon=str(FAVICON),
+)
+
 DATA = Path(__file__).parents[1] / "data"
 ROOT = Path(__file__).parents[1]
 logger = setup_logger(__name__)
@@ -167,16 +174,12 @@ def body_optimisation():
 def body_notes():
     st.subheader("Reproducibility")
     st.write(
-        "The code for lionel is openly available at [jth500/lionel](https://github.com/jth500)."
+        "The code for lionel is openly available at [jotohow/lionel](https://github.com/jotohow/lionel)."
         " FPL data prior to 2024-25 is sourced from [Vaastav](https://github.com/vaastav/Fantasy-Premier-League)."
     )
 
 
 if __name__ == "__main__":
-    st.set_page_config(
-        page_title="lionel - About",
-        page_icon=str(FAVICON),
-    )
     body_model()
     body_optimisation()
     body_notes()

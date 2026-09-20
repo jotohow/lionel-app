@@ -4,6 +4,11 @@ from plot_players import build_player_inf_plot
 from plot_team import build_team_inf_plot
 from utils import FAVICON, setup_logger
 
+st.set_page_config(
+    page_title="lionel - Inference",
+    page_icon=str(FAVICON),
+)
+
 logger = setup_logger(__name__)
 logger.debug("Running from top")
 
@@ -74,10 +79,6 @@ def sidebar():
 
 
 if __name__ == "__main__":
-    st.set_page_config(
-        page_title="lionel - Forecasts",
-        page_icon=str(FAVICON),
-    )
     initialise_session_vars()
     main()
     sidebar()

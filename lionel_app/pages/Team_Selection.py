@@ -3,6 +3,11 @@ from db import player_selection
 from plot_team import create_plot, create_value_plot
 from utils import FAVICON, get_gameweek, setup_logger
 
+st.set_page_config(
+    page_title="lionel - Selection",
+    page_icon=str(FAVICON),
+)
+
 logger = setup_logger(__name__)
 logger.debug("Running from top")
 
@@ -35,8 +40,4 @@ def main():
 
 
 if __name__ == "__main__":
-    st.set_page_config(
-        page_title="lionel - Selections",
-        page_icon=str(FAVICON),
-    )
     main()
